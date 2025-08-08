@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Person } from './types/Person';
 
 interface Props {
@@ -23,8 +23,27 @@ export const DropDown: React.FC<Props> = React.memo(function Dropdown({
     setContorovanyi('');
   }
 
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className={`dropdown ${isOpen ? 'is-active' : ''}`}>
+    <div className={`dropdown ${isOpen ? 'is-active' : ''}`} ref={dropdownRef}>
       <div className="dropdown-trigger">
         <input
           type="text"
