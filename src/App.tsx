@@ -13,6 +13,8 @@ export const App: React.FC = () => {
   const findPerson = React.useMemo(() => {
     const people = [...peopleFromServer];
 
+
+    
     const find = people.filter(person => person.name.includes(param));
 
     return find;
@@ -41,6 +43,7 @@ export const App: React.FC = () => {
           setSelectedUser={setSelectedUser}
           setContorovanyi={setContorovanyi}
           contorovanyi={contorovanyi}
+
         />
 
         {error && (

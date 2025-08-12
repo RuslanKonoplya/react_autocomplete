@@ -18,10 +18,32 @@ export const DropDown: React.FC<Props> = React.memo(function Dropdown({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  function reset() {
+
+
+
+
+  useEffect(() => {
+
+    const timer = setTimeout(() => {
+      setParam(contorovanyi);
+    }, 300);
+
+    return () => clearTimeout(timer)
+
+  },[setParam,contorovanyi])
+
+
+  function handleImputchange(e: React.ChangeEvent<HTMLInputElement>) {
+
+
+
+    setContorovanyi(e.target.value);
     setSelectedUser(null);
-    setContorovanyi('');
-  }
+
+  };
+
+
+
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -52,12 +74,12 @@ export const DropDown: React.FC<Props> = React.memo(function Dropdown({
           className="input"
           data-cy="search-input"
           onFocus={() => {
-            reset();
             setIsOpen(x => !x);
           }}
           onChange={e => {
-            setParam(e.target.value);
-            setContorovanyi(e.target.value);
+
+            handleImputchange(e);
+
           }}
         />
       </div>
@@ -73,6 +95,7 @@ export const DropDown: React.FC<Props> = React.memo(function Dropdown({
                 setSelectedUser(person);
                 setIsOpen(x => !x);
                 setContorovanyi(person.name);
+                setParam(person.name)
               }}
             >
               <p className="has-text-link">{person.name}</p>
